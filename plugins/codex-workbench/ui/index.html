@@ -1,0 +1,377 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Codex 工作台</title><style>:root{--nav:#f3f6f4;--list:#f8faf9;--paper:#fff;--ink:#202a25;--muted:#5f6d66;--line:#dfe6e1;--accent:#26764f;--selected:#e5f0e8;--soft:#f5f7f6;--warning:#865e23;--radius:7px}
+*{box-sizing:border-box}html,body{height:100%;min-height:0;margin:0;overflow:hidden}body{font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--paper);color:var(--ink)}button,input,select{font:inherit;color:inherit}button,summary,a{touch-action:manipulation}button,summary{cursor:pointer}button:disabled{opacity:.6;cursor:default}a{color:var(--accent)}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:3px}[hidden]{display:none!important}h1,h2,h3,h4,p{margin-top:0}.muted{color:var(--muted);font-size:12px}#page-scroll{height:100vh;height:100dvh;overflow-y:scroll;overflow-x:hidden;scrollbar-gutter:stable;overflow-anchor:none;overscroll-behavior-y:contain}aside{position:fixed;top:0;left:0;width:200px;height:100dvh;padding:24px 12px 16px;background:var(--nav);border-right:1px solid var(--line);display:flex;flex-direction:column;overflow:auto}.logo{display:flex;align-items:center;gap:9px;font-size:19px;font-weight:650;padding:0 10px 25px}.logo img{width:28px;height:28px;flex:none}.nav-label{padding:0 12px 8px;color:var(--muted);font-size:12px}#projects{min-height:0;overflow:auto}.project{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 12px;border:0;border-radius:var(--radius);background:transparent;color:#43544a;margin:3px 0;font-size:13px}.project:hover{background:#eaf0ec}.project.active{background:var(--selected);color:var(--accent);font-weight:600}.project-name{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.project-count{margin-left:auto;flex:none;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}.sidebar-footer{margin-top:auto;padding:22px 12px 0;font-size:11px;color:var(--muted);line-height:1.8}main{margin-left:200px;min-height:100dvh;display:flex;flex-direction:column;min-width:0}header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 26px 10px}h1{font-size:21px;line-height:1.4;letter-spacing:-.35px;font-weight:650;margin:0 0 4px}.header-meta{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;color:var(--muted);font-size:12px}.quiet,.action,#regenerate,#generateProject{display:inline-flex;align-items:center;justify-content:center;min-height:34px;border:1px solid #d4dfd7;border-radius:var(--radius);background:var(--paper);padding:6px 11px;font-size:12px}.quiet:hover,#regenerate:hover,#generateProject:hover{background:var(--soft)}.action{background:var(--accent);color:white;border-color:var(--accent);text-decoration:none;white-space:nowrap}.action:hover{background:#1f6342}.back-button{border:0;background:none;color:var(--accent);padding:7px 0;font-size:13px}#versionHelp{margin:0 26px 8px;font-size:12px;color:var(--muted)}#versionHelp summary{width:fit-content;padding:3px 0}#versionHelp p{margin:7px 0;max-width:75ch}#versionWarning:not(:empty),#message:not(:empty){margin:0 26px 10px;padding:8px 12px;background:#faf3e5;color:var(--warning);border-radius:var(--radius);font-size:12px}#message:empty,#versionWarning:empty,#detailMessage:empty{display:none}#overview{margin:0 26px 12px;min-width:0;padding-bottom:10px;border-bottom:1px solid var(--line);max-height:40dvh;overflow:auto}#overview h2{font-size:12px;font-weight:600;color:var(--muted);margin:0 0 4px}#overview p{font-size:13px;line-height:1.55;margin-bottom:6px}#overview .project-goal{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:#43554a;margin-bottom:4px}#overview .overview-meta{font-size:12px;color:var(--muted);margin:3px 0}#overview h3{font-size:12px;margin:14px 0 5px}#overview ul{margin:4px 0;padding-left:20px;font-size:13px}#overview li{margin:5px 0}#overview summary{font-size:12px;color:var(--muted);padding:3px 0}#overview .source{display:block;border:0;background:none;color:var(--accent);text-align:left;padding:5px 0;font-size:12px}.row{display:flex;justify-content:space-between;align-items:center;gap:12px}.badge{display:inline-block;background:#f7f0e2;color:var(--warning);font-size:12px;border-radius:4px;padding:2px 6px}.summary-controls{font-size:12px;color:var(--muted);margin-top:12px}.summary-controls summary{padding:5px 0}.summary-controls p{font-size:12px;line-height:1.6;margin:8px 0}.summary-controls button{margin-bottom:6px}
+/* The last viewport starts at search; both desktop panes retain independent scrolling. */
+#reading-workspace{height:100vh;height:100dvh;min-height:0;flex:none;display:flex;flex-direction:column}.tools{display:flex;align-items:center;gap:10px;padding:0 26px 12px;flex:none}.tools input{width:100%;max-width:560px;min-width:0;flex:1;height:36px;padding:7px 11px;border:1px solid #d8e2db;border-radius:var(--radius);background:var(--list);font-size:13px}.tools select{border:1px solid var(--line);border-radius:var(--radius);padding:7px;background:var(--paper);font-size:12px;max-width:150px}.tools #order{margin-left:0}#mobileProject{display:none}.content{display:grid;grid-template-columns:338px minmax(0,1fr);flex:1;min-height:0;border-top:1px solid var(--line)}#session-list-pane{min-height:0;overflow-y:auto;overflow-x:hidden;scrollbar-gutter:stable;overflow-anchor:none;background:var(--list);border-right:1px solid var(--line)}.list-caption{position:sticky;top:0;z-index:1;padding:10px 16px 7px;font-size:12px;color:var(--muted);background:var(--list);border-bottom:1px solid #edf1ee}.day{padding:7px 16px 5px;font-size:11px;color:var(--muted)}.session{display:block;width:100%;border:0;border-bottom:1px solid #e8eeea;border-left:3px solid transparent;background:transparent;padding:12px 15px;text-align:left;color:var(--ink);min-height:112px}.session:hover{background:#f0f5f1}.session.selected{background:var(--selected);border-left-color:var(--accent)}.session h3{font-size:13px;font-weight:600;line-height:1.5;margin:0 0 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.session .card-goal,.session .card-progress{display:block;font-size:12px;line-height:1.6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:2px 0;color:#42554a}.session .card-progress{color:var(--muted)}.session-meta{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11px;color:var(--muted);margin-top:7px}.session-meta>span:first-child{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.card-state{flex:none}.card-state.stale{color:var(--warning)}#more{margin:10px 16px}#detail{min-height:0;min-width:0;overflow:auto;overflow-anchor:none;scrollbar-gutter:stable;padding:22px 28px 36px;background:var(--paper)}#detailHeader{margin-bottom:24px}.detail-eyebrow{font-size:12px;color:var(--muted);margin-bottom:8px}.detail-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:18px}.detail-heading h2{font-size:22px;font-weight:650;line-height:1.4;letter-spacing:-.3px;margin:0 0 6px;overflow-wrap:anywhere}.detail-date{font-size:12px;color:var(--muted);margin:0}#detailMessage{font-size:12px;line-height:1.6;color:var(--warning);background:#faf3e5;padding:8px 10px;border-radius:var(--radius)}#taskOverview h3{font-size:12px;color:var(--muted);font-weight:600;margin:20px 0 7px}#taskOverview h3:first-child{margin-top:0}#taskOverview>p{font-size:14px;line-height:1.75;white-space:pre-wrap;overflow-wrap:anywhere;margin-bottom:14px;max-width:78ch}#taskOverview>p.muted{font-size:12px}#taskOverview .badge{margin:6px 0}footer{padding:6px 16px;flex:none;background:#fbfcfb;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}#rawReply{font-size:12px;color:var(--muted);margin-top:22px}#rawReply summary{padding:5px 0}#rawText{font-size:13px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere;background:var(--list);padding:12px;border-radius:var(--radius);color:#43554a}#rawMeta{margin:6px 0}.empty{padding:36px 20px;text-align:center;font-size:13px;color:var(--muted);line-height:1.8}.file-list{border-top:1px solid var(--line);padding-top:18px;margin-top:22px}.file-list>h3{font-size:14px;margin:0 0 4px}.file-list-hint{font-size:12px;color:var(--muted);line-height:1.5;margin:0 0 8px}.file-folder h4{font-size:12px;font-weight:500;color:var(--muted);margin:16px 0 4px;overflow-wrap:anywhere}.file-item{position:relative;padding:9px 44px 9px 0;border-bottom:1px solid #eaf0ec}.file-row{display:flex;align-items:center;flex-wrap:wrap;gap:7px 12px}.file-name{font-size:13px;font-weight:500;line-height:1.5;min-width:0;flex:1 1 170px;overflow-wrap:anywhere}.file-formats{display:flex;flex-wrap:wrap;gap:5px}.file-format{border:1px solid #d8dfda;background:var(--soft);color:#3f4d44;border-radius:5px;padding:4px 8px;min-height:28px;font:12px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;white-space:nowrap}.file-format:hover{background:#edf5ef;border-color:#8baf99;color:#245d42}.file-caption{font-size:12px;line-height:1.5;color:var(--muted);margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.file-unavailable{font-size:12px;color:#776246;line-height:1.6}.file-record{font-size:12px;color:var(--muted)}.file-record>summary{position:absolute;right:0;top:8px;min-height:28px;display:flex;align-items:center;padding:3px 0 3px 4px}.file-record>summary:after{content:'⌄';margin-left:3px}.file-record[open]>summary:after{content:'⌃'}.file-record>summary::-webkit-details-marker{display:none}.file-record-entry{display:grid;gap:3px;font-size:12px;line-height:1.6;margin-top:10px}.file-record-entry code{font-size:11px;white-space:normal;overflow-wrap:anywhere}.file-explanation{font-size:12px;color:var(--muted);margin-top:10px}.file-explanation summary{padding:3px 0}.file-explanation p{font-size:12px;line-height:1.6;margin:6px 0}
+@media(min-width:1600px){.content{grid-template-columns:370px minmax(0,1fr)}#detail{padding-left:36px;padding-right:36px}}
+@media(min-width:801px) and (max-width:1100px){aside{width:174px}main{margin-left:174px}header{padding:14px 20px 8px}#overview,#versionHelp{margin-left:20px;margin-right:20px}.tools{padding-left:20px;padding-right:20px}.content{grid-template-columns:300px minmax(0,1fr)}#detail{padding:20px}.detail-heading{flex-direction:column;gap:8px}.detail-heading h2{font-size:19px}.file-name{flex-basis:130px}}
+@media(max-width:800px){aside{display:none}#page-scroll{height:100dvh;overflow:hidden}main{margin:0;height:100dvh;min-height:0}header{padding:14px 16px 8px;flex:none}h1{font-size:18px}.header-meta{font-size:11px;gap:2px 8px}#sync{display:none}#versionHelp{margin:0 16px 6px;flex:none}#overview{margin:0 16px 10px;padding-bottom:8px;flex:none;max-height:32dvh}#overview .overview-meta{display:none}#overview p{font-size:12px}.tools{padding:0 16px 10px;gap:8px;flex-wrap:wrap}#mobileProject{display:block;max-width:140px}.tools input{flex:1 1 130px;max-width:none}#order{font-size:11px;max-width:120px}#reading-workspace{height:auto;flex:1;min-height:0}.content{display:flex;flex-direction:column;flex:1;min-height:0}#session-list-pane{border:0;flex:1;min-height:0}#detail{display:none;flex:1;min-height:0;padding:18px 18px 30px}.mobile-detail #detail{display:block}.mobile-detail #session-list-pane,.mobile-detail #overview,.mobile-detail #mobileProject,.mobile-detail #query,.mobile-detail #order{display:none}.mobile-detail #backToList{display:inline-flex}.mobile-detail .tools{padding-bottom:7px}.detail-heading{flex-direction:column;gap:10px}.detail-heading h2{font-size:20px}.session{min-height:112px}.file-name{flex-basis:150px}#versionWarning:not(:empty),#message:not(:empty){margin-left:16px;margin-right:16px}footer{font-size:10px}.row{flex-wrap:wrap;gap:5px}}
+@media(prefers-reduced-motion:no-preference){button,a{transition:background-color .12s,border-color .12s}}
+
+.summary-action{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.summary-action button{margin-bottom:0}.summary-action .badge{margin:0}
+
+#onboarding{margin:0 26px 12px;padding:14px;background:var(--selected);border-radius:var(--radius)}#onboarding[hidden]{display:none}#onboarding h2{font-size:14px;margin:0 0 6px}#onboarding p{font-size:12px;line-height:1.6;margin:6px 0}#onboarding .action:not(:disabled){cursor:pointer}@media(max-width:800px){#onboarding{margin:0 16px 10px;max-height:30dvh;overflow:auto}.mobile-detail #onboarding{display:none}}
+
+html[lang="en"] .file-item{padding-right:68px}html[lang="en"] .file-record>summary{min-width:60px}
+</style></head><body>
+<div id="page-scroll" role="region" aria-label="工作台页面" tabindex="0">
+<aside><div class="logo"><img width="28" height="28" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDY0IDY0Ij4KICA8dGl0bGU+Q29kZXgg5bel5L2c5Y+wPC90aXRsZT4KICA8cmVjdCB4PSIyIiB5PSIyIiB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHJ4PSIxNSIgZmlsbD0iIzI4N2I1NSIvPgogIDxyZWN0IHg9IjE0IiB5PSIxNCIgd2lkdGg9IjE0IiBoZWlnaHQ9IjM2IiByeD0iMyIgZmlsbD0iI2ZmZmZmZiIvPgogIDxyZWN0IHg9IjM0IiB5PSIxNCIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE0IiByeD0iMyIgZmlsbD0iI2ZmZmZmZiIvPgogIDxyZWN0IHg9IjM0IiB5PSIzNCIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiByeD0iMyIgZmlsbD0iI2I4ZTBjNiIvPgo8L3N2Zz4K"><span>工作台</span></div><div class="nav-label">项目</div><nav id="projects" aria-label="按项目浏览"></nav><div class="sidebar-footer">本地只读 · v0.9.0<br>按最近会话更新排列</div></aside>
+<main><header><div class="header-title"><h1 id="heading">全部项目</h1><div class="header-meta"><span id="stats"></span><span id="sync" role="status">正在连接 Codex…</span></div></div><button class="quiet" id="refresh" disabled title="重新读取记录与已有摘要，不自动调用模型">刷新数据</button></header>
+<details id="versionHelp"><summary>版本与连接</summary><label for="language">Language / 语言</label> <select id="language" aria-label="Language / 语言"><option value="auto">自动 / Auto</option><option value="zh-CN">简体中文</option><option value="en">English</option></select><p id="versionStatus">正在检查运行版本…</p><button class="quiet" id="checkVersion">检查界面与服务版本</button><p class="muted">刷新数据不会升级界面。更新后请关闭并重新打开工作台；版本未变化时，完全退出 Codex（⌘Q）后重启。</p><p id="scope" class="muted">仅读取当前设备；不含归档和子代理会话。</p></details>
+<div id="versionWarning" role="status"></div><p id="message" role="alert"></p><section id="onboarding" hidden aria-label="首次体验"></section><section id="overview" aria-label="项目概况"></section>
+<section id="reading-workspace" aria-label="会话浏览区"><div class="tools"><button class="back-button" id="backToList" hidden>‹ 返回会话列表</button><select id="mobileProject" aria-label="选择项目"></select><input id="query" type="search" aria-label="搜索会话" placeholder="搜索会话、目标或关键词" autocomplete="off" title="搜索标题、项目名、初始需求与已有摘要，不搜索文件正文"><select id="order" aria-label="时间排序"><option value="new">最近更新</option><option value="old">最早更新</option></select></div>
+<div class="content"><section id="session-list-pane" aria-label="会话列表" tabindex="0"><div class="list-caption"><span id="resultCount" role="status"></span></div><div id="sessions"></div><button class="quiet" id="more" hidden>加载更多</button></section>
+<section id="detail" aria-label="会话详情" tabindex="0"><div id="detailHeader"></div><p id="detailMessage" role="alert"></p><div id="taskOverview"></div><div id="files"></div><details id="rawReply"><summary>查看最近原始回复与来源</summary><p id="rawMeta" class="muted"></p><p id="rawText"></p></details></section></div>
+<footer>本地真实数据 · 摘要需明确同意后生成</footer></section>
+</main></div><script>const EN_STRINGS={
+  "工作台": "Workbench",
+  "项目": "Projects",
+  "全部项目": "All projects",
+  "未归类": "Unassigned",
+  "刷新数据": "Refresh data",
+  "版本与连接": "Version and connection",
+  "检查界面与服务版本": "Check UI and service versions",
+  "正在检查运行版本…": "Checking versions…",
+  "正在连接 ": "Connecting to ",
+  "仅读取当前设备；不含归档和子代理会话。": "This device only; excludes archived and subagent chats.",
+  "重新读取记录与已有摘要，不自动调用模型": "Reload records and cached summaries without calling AI",
+  "刷新数据不会升级界面。更新后请关闭并重新打开工作台；版本未变化时，完全退出 ": "Refreshing data does not update the UI. Close and reopen the workbench; if unchanged, quit ",
+  "后重启。": " and restart.",
+  "工作台界面与服务版本不一致。刷新数据不会升级页面，请完全退出 ": "UI and service versions differ. Refreshing data does not update the page. Quit ",
+  "后重新打开。": " and reopen.",
+  "按最近会话更新排列": "Sorted by latest chat update",
+  "本地只读 · ": "Local read-only · ",
+  "搜索会话、目标或关键词": "Search chats, goals or keywords",
+  "搜索标题、项目名、初始需求与已有摘要，不搜索文件正文": "Search titles, project names, initial requests and cached summaries; excludes file contents",
+  "搜索会话": "Search chats",
+  "最近更新": "Recently updated",
+  "最早更新": "Oldest updated",
+  "时间排序": "Sort by time",
+  "选择项目": "Select project",
+  "返回会话列表": "Back to chats",
+  "会话浏览区": "Chat workspace",
+  "会话列表": "Chat list",
+  "会话详情": "Chat details",
+  "按项目浏览": "Browse by project",
+  "工作台页面": "Workbench page",
+  "首次体验": "First-use setup",
+  "项目概况": "Project overview",
+  "加载更多": "Load more",
+  "查看最近原始回复与来源": "View latest original reply and source",
+  "本地真实数据 · 摘要需明确同意后生成": "Local data · AI summaries require your approval",
+  "任务目标": "Task goal",
+  "当前进展": "Current progress",
+  "下一步 / 待确认": "Next steps / decisions",
+  "需求摘录": "Request excerpt",
+  "任务概览": "Task overview",
+  "更新摘要": "Update summary",
+  "生成摘要": "Generate summary",
+  "重新生成摘要": "Regenerate summary",
+  "生成说明": "About AI summaries",
+  "有新内容": "New content",
+  "已有摘要": "Cached summary",
+  "原始摘录": "Original excerpt",
+  "摘要待更新": "Summary outdated",
+  "已有摘要 · 与当前读取版本一致": "Cached summary · Up to date",
+  "已有摘要暂不可用": "Cached summary unavailable",
+  "请重试读取，或在原会话中查看完整记录。": "Try loading again, or open the original chat for the full history.",
+  "正在更新摘要，保留上次结果。": "Updating summary; previous result remains available.",
+  "摘要更新失败：": "Summary update failed: ",
+  "正在生成目标、进展和下一步…": "Generating goals, progress and next steps…",
+  "生成 · 使用 ": "generated · Uses ",
+  "额度": "credits",
+  "点击按钮后，将本会话最初2轮和最近8轮的消息摘录发送给当前 ": "Clicking sends excerpts from the first 2 and latest 8 turns of this chat to the ",
+  "登录使用的 ": "account’s ",
+  "模型，生成或更新摘要；不读取项目文件，不包含工具输出。": "model to generate or update a summary. Project files and tool outputs are excluded.",
+  "会话产出文件": "Chat outputs",
+  "产出文件": "Output files",
+  "正在读取文件记录…": "Loading file records…",
+  "暂无可识别的产出文件": "No recognized output files",
+  "个文件 · ": " files · ",
+  "个目录 · 同名格式并排，点击格式预览": " folders · Formats sharing a name are grouped; select a format to preview",
+  "文件分组与来源说明": "File grouping and sources",
+  "按目录和去掉扩展名后的同名分组；目录和条目按首次记录先后排列。不代表内容相同或存在版本、生成关系。说明引用历史交付链接原文，不代表文件当前内容。": "Grouped by directory and exact filename stem, ordered by first recorded appearance. Grouping does not imply identical content, versions or derivation. Captions quote historical delivery links and may not describe current contents.",
+  "根目录": "Root directory",
+  "交付时说明：": "Delivery caption: ",
+  "记录": "Records",
+  "不可访问": "Unavailable",
+  "暂不支持预览": "Preview not supported",
+  "在标签页预览 ": "Preview in tab: ",
+  "文件记录": "File records",
+  "的文件记录": " file records",
+  "首次记录 ": "First recorded ",
+  "最近记录 ": "Last recorded ",
+  "修改记录": "Change record",
+  "新建记录": "Creation record",
+  "写入记录": "Write record",
+  "助手提供的文件链接": "File linked by assistant",
+  "交付链接原文：": "Original delivery link: ",
+  "图片": "Image",
+  "网页": "Webpage",
+  "图稿": "Diagram",
+  "文档": "Document",
+  "表格": "Spreadsheet",
+  "演示稿": "Slides",
+  "文稿": "Document",
+  "矢量图": "Vector",
+  "文本": "Text",
+  "打开会话 ↗": "Open chat ↗",
+  "更新于 ": "Updated ",
+  "生成于 ": "Generated ",
+  "基于会话版本 ": "Chat version ",
+  "来源：": "Source: ",
+  "进展：": "Progress: ",
+  "近况摘录：": "Recent excerpt: ",
+  "正在读取最近回复…": "Loading latest reply…",
+  "正在读取已有摘要…": "Loading cached summary…",
+  "正在读取已有概况…": "Loading cached overview…",
+  "正在读取…": "Loading…",
+  "加载中": "Loading",
+  "时间未知": "Unknown time",
+  "没有符合条件的会话": "No matching chats",
+  "试试更短的关键词，或切换项目。": "Try a shorter query or another project.",
+  "选择会话，查看目标、进展与产出。": "Select a chat to view goals, progress and outputs.",
+  "工作空间概况": "Workspace overview",
+  "按项目找到会话，回忆任务并查看产出。": "Find chats by project, recall tasks and browse outputs.",
+  "未归类会话": "Unassigned chats",
+  "个会话尚未归入正式项目，不合并生成项目概况。": " chats have no assigned project; no combined project overview is generated.",
+  "尚未生成项目概况": "No project overview yet",
+  "概况综合多个会话，不以最后一条消息代替项目状态。": "Overviews combine multiple chats rather than treating the latest message as project status.",
+  "该项目暂无会话。": "This project has no chats yet.",
+  "展开目标、工作、成果与待办": "Expand goals, work, outputs and next steps",
+  "查看说明与整理项目概况": "About project overviews",
+  "同意发送摘录并更新概况": "Update overview",
+  "同意发送项目会话摘录并生成概况": "Generate overview",
+  "生成或更新会将本项目最近最多20个会话的标题、初始与近期消息摘录发送给当前 ": "Generating or updating sends titles and initial/recent message excerpts from up to 20 recent project chats to the ",
+  "额度；不包含工具输出，不读取项目文件。": "credits; excludes tool outputs and project files.",
+  "正在综合项目会话…": "Summarizing project chats…",
+  "概况更新中，保留上次结果。": "Updating overview; previous result remains available.",
+  "概况待更新": "Overview outdated",
+  "更新失败：": "Update failed: ",
+  "完整目标": "Full goal",
+  "主要工作": "Workstreams",
+  "已交付成果": "Deliverables",
+  "待推进事项": "Next steps",
+  "暂无明确记录": "No explicit record",
+  "依据会话": "Source chat",
+  "覆盖 ": "Coverage ",
+  "来源 ": "Source ",
+  "成果 ": "Outputs ",
+  "待推进 ": "Next steps ",
+  "先体验一次 ": "Try an ",
+  "摘要": " summary",
+  "为最近会话「": "For your latest chat “",
+  "及所属项目「": " and its project “",
+  "生成摘要。已有有效摘要直接复用。": "generate summaries. Valid cached summaries are reused.",
+  "会将部分会话消息发送给 ": "Sends selected chat messages to ",
+  "模型，使用 ": "models and uses ",
+  "额度。其他摘要由你主动生成。": "credits. Other summaries are generated only when requested.",
+  "生成并体验": "Generate and explore",
+  "暂时跳过": "Skip for now",
+  "收起引导": "Hide setup",
+  "关闭引导": "Close setup",
+  "正在生成…": "Generating…",
+  "正在生成会话摘要，可继续浏览…": "Generating chat summary; you can keep browsing…",
+  "会话已处理，正在生成项目概况…": "Chat processed; generating project overview…",
+  "摘要已就绪。其他摘要可按需生成。": "Summaries are ready. Generate others as needed.",
+  "部分摘要未完成，请在对应摘要区域重试；已有结果已保留。": "Some summaries could not finish. Retry in the relevant summary section; existing results are preserved.",
+  "体验未完成：": "Setup incomplete: ",
+  "已有结果保留，可在摘要区域重试。": "Existing results are preserved. Retry in the summary section.",
+  "首次体验引导暂不可用：": "First-use setup unavailable: ",
+  "连接失败": "Connection failed",
+  "连接超时，请刷新重试": "Connection timed out. Refresh and try again.",
+  "宿主未返回结构化数据": "Host returned no structured data",
+  "宿主拒绝打开会话": "Host declined to open the chat",
+  "打开会话失败：": "Could not open chat: ",
+  "暂无可读取回复": "No readable reply",
+  "读取失败，保留上次回复": "Read failed; previous reply preserved",
+  "读取失败": "Read failed",
+  "读取中…": "Loading…",
+  "刷新失败：": "Refresh failed: ",
+  "已保留上次结果。": "Previous results preserved.",
+  "文件记录读取失败：": "File record loading failed: ",
+  "服务版本检查失败：": "Service version check failed: ",
+  "无法准备文件预览": "Could not prepare preview",
+  "宿主未返回标签页地址，请检查界面与服务版本": "Host returned no tab URL. Check UI and service versions.",
+  "拒绝打开标签页": "declined to open the tab",
+  "打开预览标签页失败：": "Could not open preview tab: ",
+  "正在打开 ": "Opening ",
+  "同步 ": "Synced ",
+  "数据同步：": "Data synced: ",
+  "北京时间": "Beijing time",
+  "读取不调用模型；摘要需明确同意后生成，使用 ": "Reading does not call AI; summaries require approval and use ",
+  "界面 ": "UI ",
+  "服务 ": "Service ",
+  "一致）": "match)",
+  "不一致，请重新加载）": "mismatch; reload)",
+  "个项目 · ": " projects · ",
+  "个会话 · 显示 ": " chats · Showing ",
+  "个会话": " chats",
+  "找到 ": "Found ",
+  "共 ": "Total ",
+  "个": "",
+  "参考会话": "Linked chat",
+  "相关链接": "Related link",
+  "「": "“",
+  "」": "”",
+  "（一致）": "(match)",
+  "（不一致，请重新加载）": "(mismatch; reload)",
+  "当前设备的本地 Codex 会话；按 Codex 正式项目归属分组，其余统一未归类；不含归档与子代理会话": "Local Codex chats on this device, grouped by explicit project membership; other chats are unassigned. Archived and subagent chats are excluded"
+}
+;
+let languagePreference='auto',hostLocale='',uiLocale='zh-CN';
+let latestScope='',latestSync=0;
+const staticTexts=[],staticAttributes=[];
+const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+while(walker.nextNode()){const node=walker.currentNode;if(!node.parentElement.closest('script,style'))staticTexts.push([node,node.nodeValue]);}
+for(const element of document.querySelectorAll('[title],[aria-label],[placeholder]'))for(const attr of ['title','aria-label','placeholder'])if(element.hasAttribute(attr))staticAttributes.push([element,attr,element.getAttribute(attr)]);
+const translatedKeys=Object.keys(EN_STRINGS).sort((a,b)=>b.length-a.length);
+const translatedPattern=new RegExp(translatedKeys.map(s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\<!--SCRIPT-->')).join('|'),'g');
+function tr(text){return uiLocale==='en'?text.replace(translatedPattern,key=>EN_STRINGS[key]):text;}
+function effectiveLocale(){const preferred=languagePreference==='auto'?(hostLocale||navigator.languages?.[0]||navigator.language||'en'):languagePreference;return /^zh(?:-|$)/i.test(preferred)?'zh-CN':'en';}
+function applyLanguage(){const locale=effectiveLocale(),changed=locale!==uiLocale;uiLocale=locale;document.documentElement.lang=locale;document.title=locale==='en'?'Codex Workbench':'Codex 工作台';for(const[node,text]of staticTexts)if(node.isConnected)node.nodeValue=tr(text);for(const[el,attr,text]of staticAttributes)if(el.isConnected)el.setAttribute(attr,tr(text));document.getElementById('language').value=languagePreference;if(changed&&typeof connected!=='undefined'&&connected){lastFiles=null;lastTask=null;lastProject=null;document.getElementById('refresh').textContent=tr(document.getElementById('refresh').disabled?'读取中…':'刷新数据');render();updateLocalizedMetadata();checkVersion();}}
+function setHostLocale(locale){if(typeof locale==='string'&&locale){hostLocale=locale;applyLanguage();}}
+function setLanguagePreference(value){languagePreference=['auto','zh-CN','en'].includes(value)?value:'auto';applyLanguage();}
+document.getElementById('language').onchange=async e=>{const previous=languagePreference;setLanguagePreference(e.target.value);try{await call('workbench_onboarding',{action:'language',language:languagePreference});const start=document.getElementById('startExperience');if(start&&!start.disabled&&!start.hidden)await setupOnboarding();}catch(error){setLanguagePreference(previous);document.getElementById('message').textContent=error.message;}};
+window.addEventListener('languagechange',()=>applyLanguage());
+// Initial localization runs after app.js declares its state.
+queueMicrotask(applyLanguage);
+
+function updateLocalizedMetadata(){if(!latestSync)return;document.getElementById('sync').textContent=tr('同步 ')+shortTime(latestSync/1000);document.getElementById('sync').title=tr('数据同步：')+fmt(latestSync/1000)+tr(' · 北京时间');document.getElementById('scope').textContent=tr(latestScope)+tr('。读取不调用模型；摘要需明确同意后生成，使用 Codex 额度。');}
+
+const UI_VERSION='0.9.0';
+const $=id=>document.getElementById(id);
+const escapeHtml=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=n=>n?new Date(n*1000).toLocaleString(uiLocale,{timeZone:'Asia/Shanghai',hour12:false}):tr('时间未知');
+const shortTime=n=>n?new Intl.DateTimeFormat(uiLocale,{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Asia/Shanghai'}).format(new Date(n*1000)):tr('时间未知');
+let declaredProjects=[],threads=[],project='',selected='',limit=20,connected=false,hostOrigin=null,sequence=10,generation=0,mobileDetail=false;
+const overviewCache=new Map(),overviewPending=new Set(),projectCache=new Map(),projectPending=new Set(),projectExpanded=new Map(),rawExpanded=new Map(),fileExpanded=new Set(),summaryExpanded=new Map();
+const progress=new Map(),pending=new Map(),fileCache=new Map(),filesPending=new Set(),loading=new Map();
+const listPositions=new Map(),detailPositions=new Map(),projectNodes=new Map(),sessionNodes=new Map(),dayNodes=new Map();
+let canOpenFiles=false,visible=[],renderedProject=null,renderedSession=null,lastFiles=null,lastTask=null,lastProject=null;
+function rpc(method,params={}){return new Promise((resolve,reject)=>{const id=++sequence,timer=setTimeout(()=>{pending.delete(id);reject(Error(tr('连接超时，请刷新重试')))},45000);pending.set(id,{resolve,reject,timer});parent.postMessage({jsonrpc:'2.0',id,method,params},hostOrigin||'*')})}
+async function call(name,args={}){const r=await rpc('tools/call',{name,arguments:args});if(r.isError)throw Error(r.content?.find(x=>x.type==='text')?.text||tr('读取失败'));if(!r.structuredContent)throw Error(tr('宿主未返回结构化数据'));return r.structuredContent;}
+function groups(){const map=new Map(declaredProjects.map(p=>[p.id,{id:p.id,name:p.name,count:0,updatedAt:0}]));for(const t of threads){const p=map.get(t.project)||{id:t.project,name:t.projectName,count:0,updatedAt:0};p.count++;p.updatedAt=Math.max(p.updatedAt,t.updatedAt);map.set(t.project,p)}return [...map.values()].sort((a,b)=>(a.id==='unassigned')-(b.id==='unassigned')||b.updatedAt-a.updatedAt||a.id.localeCompare(b.id))}
+function setHtml(element,html){if(element._workbenchHtml===html)return false;element.innerHTML=html;element._workbenchHtml=html;return true;}
+function reconcile(parent,nodes){const keep=new Set(nodes);for(const child of [...parent.children])if(!keep.has(child))child.remove();nodes.forEach((node,i)=>{if(parent.children[i]!==node)parent.insertBefore(node,parent.children[i]||null)});}
+function focusSnapshot(){const node=document.activeElement;if(!node||node===document.body)return null;return {node,id:node.id||node.closest('[id]')?.id,summary:node.tagName==='SUMMARY',filePath:node.dataset.filePath||node.closest('.file-record')?.dataset.filePath,inDetail:!!node.closest('#detail'),owner:renderedSession};}
+function restoreFocus(f){if(!f||document.activeElement===f.node)return;if(f.inDetail&&f.owner!==selected)return;const node=f.node.isConnected?f.node:f.filePath?[...document.querySelectorAll(f.summary?'.file-record':'.file-format')].find(n=>n.dataset.filePath===f.filePath):f.id?$(f.id):null;let target=f.summary&&node?.tagName==='DETAILS'?node.querySelector('summary'):node;if(target?.disabled)target=target.closest('details')?.querySelector('summary');if(target&&!target.hidden)target.focus({preventScroll:true});}
+function updateNarrow(){document.body.classList.toggle('mobile-detail',!!mobileDetail&&!!selected);$('backToList').hidden=!(mobileDetail&&selected&&innerWidth<=800);}
+function chooseProject(id){project=id;selected='';mobileDetail=false;limit=20;render();loadVisible();}
+function chooseSession(id,openDetail=true){selected=id;if(openDetail)mobileDetail=innerWidth<=800;render();loadProgress(id,generation);}
+function render(){
+ const page=$('page-scroll'),list=$('session-list-pane'),detail=$('detail'),focus=focusSnapshot(),pageTop=page.scrollTop,atBottom=page.scrollHeight>page.clientHeight&&page.scrollHeight-page.clientHeight-pageTop<2;
+ if(renderedProject!==null)listPositions.set(renderedProject,list.scrollTop);if(renderedSession)detailPositions.set(renderedSession,detail.scrollTop);
+ const scoped=threads.filter(t=>!project||t.project===project),all=[{id:'',name:tr('全部项目'),count:threads.length,updatedAt:Math.max(0,...threads.map(t=>t.updatedAt))},...groups()];
+ $('heading').textContent=all.find(p=>p.id===project)?.name||tr('全部项目');
+ const projectElements=all.map(p=>{let b=projectNodes.get(p.id);if(!b){b=document.createElement('button');b.id='project-'+encodeURIComponent(p.id||'all');b.className='project';b.onclick=()=>chooseProject(p.id);projectNodes.set(p.id,b)}b.classList.toggle('active',project===p.id);b.setAttribute('aria-pressed',project===p.id?'true':'false');b.title=tr('最近更新：')+fmt(p.updatedAt);setHtml(b,'<span class="project-name">'+escapeHtml(p.id==='unassigned'?tr('未归类'):p.name)+'</span><span class="project-count">'+p.count+'</span>');return b});
+ reconcile($('projects'),projectElements);setHtml($('mobileProject'),all.map(p=>'<option value="'+escapeHtml(p.id)+'">'+escapeHtml(p.id==='unassigned'?tr('未归类'):p.name)+'</option>').join(''));$('mobileProject').value=project;
+ $('stats').textContent=project?scoped.length+tr(' 个会话'):declaredProjects.length+tr(' 个项目 · ')+threads.length+tr(' 个会话');
+ const projectRecord=projectCache.get(project),projectKey=project+'|'+generation+'|'+scoped.length;
+ if(!lastProject||lastProject.key!==projectKey||lastProject.record!==projectRecord){setHtml($('overview'),projectHtml(scoped));lastProject={key:projectKey,record:projectRecord};const expanded=$('projectDetails');if(expanded){const id=project;expanded.ontoggle=()=>{if(expanded.isConnected)projectExpanded.set(id,expanded.open)}}const generate=$('generateProject');if(generate)generate.onclick=()=>{loadProject(project,generation,true,true);render()};const snapshot=projectRecord?.overview?projectRecord:projectRecord?.previous;for(const [i,source] of (snapshot?.sources||[]).entries()){const b=$('projectSource'+i);if(b)b.onclick=()=>openThread(source.id);}}
+ if(project.startsWith('project:'))loadProject(project,generation);
+ const q=$('query').value.trim().toLowerCase(),filtered=scoped.filter(t=>[t.title,t.projectName,t.preview,cardSummary(t)?.goal||'',cardSummary(t)?.progress||''].join(' ').toLowerCase().includes(q)).sort((a,b)=>$('order').value==='new'?b.updatedAt-a.updatedAt:a.updatedAt-b.updatedAt);
+ visible=filtered.slice(0,limit);$('resultCount').textContent=(q?tr('找到 '):tr('共 '))+filtered.length+tr(' 个会话 · 显示 ')+visible.length+tr(' 个');if(!visible.some(t=>t.id===selected))selected=visible[0]?.id||'';if(!selected)mobileDetail=false;
+ const nodes=[];let day='';for(const t of visible){const d=fmt(t.updatedAt).slice(0,10);if(day!==d){day=d;let label=dayNodes.get(d);if(!label){label=document.createElement('div');label.className='day';label.textContent=d;dayNodes.set(d,label)}nodes.push(label)}let b=sessionNodes.get(t.id);if(!b){b=document.createElement('button');b.id='session-'+t.id;b.className='session';b.dataset.session=t.id;b.onclick=()=>chooseSession(t.id);b.onkeydown=e=>{if(e.key!=='ArrowDown'&&e.key!=='ArrowUp')return;e.preventDefault();const i=visible.findIndex(x=>x.id===t.id),next=visible[Math.max(0,Math.min(visible.length-1,i+(e.key==='ArrowDown'?1:-1)))];if(next){chooseSession(next.id,false);sessionNodes.get(next.id)?.focus()}};sessionNodes.set(t.id,b)}b.classList.toggle('selected',t.id===selected);b.setAttribute('aria-pressed',t.id===selected?'true':'false');setHtml(b,cardHtml(t,progress.get(t.id)));nodes.push(b)}
+ if(nodes.length){reconcile($('sessions'),nodes);$('sessions')._workbenchHtml=null;}else setHtml($('sessions'),tr('<p class="empty">没有符合条件的会话<br>试试更短的关键词，或切换项目。</p>'));$('more').hidden=filtered.length<=limit;
+ const t=threads.find(t=>t.id===selected),pr=progress.get(selected),taskRecord=overviewCache.get(selected),filesRecord=fileCache.get(selected);
+ if(t){
+  if(renderedSession!==selected)$('detailMessage').textContent='';
+  setHtml($('detailHeader'),'<div class="detail-eyebrow">'+escapeHtml(t.project==='unassigned'?tr('未归类'):t.projectName)+'</div><div class="detail-heading"><div><h2>'+escapeHtml(t.title)+tr('</h2><p class="detail-date">更新于 ')+shortTime(t.updatedAt)+tr('</p></div><button class="action" id="openThread">打开会话 ↗</button></div>'));
+  $('openThread').onclick=()=>openThread(t.id);
+  if(!lastTask||lastTask.id!==t.id||lastTask.record!==taskRecord){setHtml($('taskOverview'),overviewHtml(t));lastTask={id:t.id,record:taskRecord};const controls=$('summaryControls');if(controls){const id=t.id;controls.ontoggle=()=>{if(controls.isConnected)summaryExpanded.set(id,controls.open)}}if($('regenerate'))$('regenerate').onclick=()=>{loadOverview(t,generation,true,true);render()};}
+  if(!lastFiles||lastFiles.id!==t.id||lastFiles.record!==filesRecord){setHtml($('files'),filesHtml(t.id));lastFiles={id:t.id,record:filesRecord};for(const [i,file] of (filesRecord?.files||[]).entries()){const b=$('previewFile'+i);if(b)b.onclick=()=>openArtifact(t.id,file);const record=$('fileRecord'+i);if(record){const key=t.id+'|'+file.path;record.ontoggle=()=>{if(record.isConnected){if(record.open)fileExpanded.add(key);else fileExpanded.delete(key)}}}}}
+  $('rawReply').hidden=false;$('rawReply').open=rawExpanded.get(t.id)||false;$('rawReply').ontoggle=()=>rawExpanded.set(t.id,$('rawReply').open);$('rawText').textContent=pr?.text||tr('正在读取…');$('rawMeta').textContent=tr('来源：')+(pr?.source||tr('加载中'))+' · '+fmt(pr?.summaryAt);
+  loadProgress(t.id,generation);loadFiles(t.id,generation);loadOverview(t,generation);
+ }else{$('detailMessage').textContent='';setHtml($('detailHeader'),tr('<p class="empty">选择会话，查看目标、进展与产出。</p>'));setHtml($('taskOverview'),'');setHtml($('files'),'');$('rawReply').hidden=true;lastTask=null;lastFiles=null;}
+ list.scrollTop=listPositions.get(project)||0;detail.scrollTop=detailPositions.get(selected)||0;renderedProject=project;renderedSession=selected;updateNarrow();page.scrollTop=atBottom?page.scrollHeight:pageTop;restoreFocus(focus);
+}
+async function openThread(id){try{const r=await rpc('ui/open-link',{url:'codex://threads/'+encodeURIComponent(id)});if(r?.isError)throw Error(tr('宿主拒绝打开会话'))}catch(e){$('message').textContent=tr('打开会话失败：')+e.message}}
+async function loadProgress(id,g){if(progress.get(id)?.verifiedGeneration===g)return;const key=g+':'+id;if(loading.has(key))return loading.get(key);const task=(async()=>{try{const p=await call('get_session_progress',{id});if(g===generation)progress.set(id,{...p,verifiedGeneration:g})}catch(e){if(g===generation)progress.set(id,{...(progress.get(id)||{text:tr('暂无可读取回复')}),source:tr('读取失败，保留上次回复'),readError:e.message,verifiedGeneration:g})}finally{loading.delete(key);if(g===generation)render()}})();loading.set(key,task);return task;}
+async function loadVisible(){const ids=visible.filter(t=>!cardSummary(t)).map(t=>t.id),g=generation;let next=0;await Promise.all(Array.from({length:3},async()=>{while(next<ids.length&&g===generation)await loadProgress(ids[next++],g)}));}
+async function refresh(){if(!connected)return;$('refresh').disabled=true;$('refresh').textContent=tr('读取中…');$('message').textContent='';try{const r=await call('refresh_workbench');threads=r.threads;declaredProjects=r.projects||[];generation++;overviewPending.clear();projectPending.clear();filesPending.clear();loading.clear();if(project&&!groups().some(p=>p.id===project))project='';$('sync').textContent=tr('同步 ')+shortTime(r.syncedAt/1000);$('sync').title=tr('数据同步：')+fmt(r.syncedAt/1000)+tr(' · 北京时间');latestScope=r.scope;latestSync=r.syncedAt;updateLocalizedMetadata();render();await loadVisible()}catch(e){$('message').textContent=tr('刷新失败：')+e.message+tr('。已保留上次结果。')}finally{$('refresh').disabled=false;$('refresh').textContent=tr('刷新数据')}}
+window.addEventListener('message',e=>{if(e.source!==parent||!e.data||e.data.jsonrpc!=='2.0')return;if(hostOrigin&&e.origin!==hostOrigin)return;const m=e.data;if(m.method==='ui/notifications/host-context-changed'){setHostLocale(m.params?.locale);return}if(m.id!==undefined&&pending.has(m.id)){if(!hostOrigin&&m.result)hostOrigin=e.origin;const p=pending.get(m.id);pending.delete(m.id);clearTimeout(p.timer);m.error?p.reject(Error(m.error.message)):p.resolve(m.result)}});
+$('refresh').onclick=refresh;$('mobileProject').onchange=()=>chooseProject($('mobileProject').value);$('backToList').onclick=()=>{mobileDetail=false;updateNarrow();sessionNodes.get(selected)?.focus({preventScroll:true})};window.addEventListener('resize',updateNarrow);
+for(const id of ['query','order'])$(id).addEventListener(id==='query'?'input':'change',()=>{limit=20;$('session-list-pane').scrollTop=0;render();loadVisible()});$('more').onclick=()=>{limit+=20;render();loadVisible()};
+(async()=>{try{const init=await rpc('ui/initialize',{appInfo:{name:'codex-workbench',version:UI_VERSION},appCapabilities:{},protocolVersion:'2026-01-26'});setHostLocale(init.hostContext?.locale);canOpenFiles=!!init.hostCapabilities?.experimental?.['openai/files'];connected=true;parent.postMessage({jsonrpc:'2.0',method:'ui/notifications/initialized',params:{}},hostOrigin||'*');$('refresh').disabled=false;await checkVersion();await refresh();await setupOnboarding()}catch(e){$('sync').textContent=tr('连接失败');$('message').textContent=e.message}})();
+
+function groupFiles(files){
+ const folders=new Map();for(const [index,file] of files.entries()){
+  const slash=file.path.lastIndexOf('/'),directory=file.path.slice(0,slash)||'/',name=file.name||file.path.slice(slash+1),stem=name.replace(/(?:\.draw\.io|\.[^.]+)$/i,'')||name;
+  if(!folders.has(directory))folders.set(directory,{directory,items:new Map()});const folder=folders.get(directory);
+  if(!folder.items.has(stem))folder.items.set(stem,{name:stem,index,files:[]});folder.items.get(stem).files.push({file,index});
+ }
+ const result=[...folders.values()];const common=result.map(f=>f.directory.split('/'));let prefix=0;while(common.length&&common.every(parts=>parts[prefix]!==undefined&&parts[prefix]===common[0][prefix]))prefix++;
+ return result.map(folder=>({...folder,title:folder.directory.split('/').slice(prefix).join('/')||folder.directory.split('/').pop()||tr('根目录'),items:[...folder.items.values()]}));
+}
+function formatLabel(file){const ext=file.name.match(/(?:\.draw\.io|\.[^.]+)$/i)?.[0].toLowerCase();return ({'.html':tr('HTML 网页'),'.htm':tr('HTML 网页'),'.drawio':tr('draw.io 图稿'),'.draw.io':tr('draw.io 图稿'),'.svg':tr('SVG 矢量图'),'.png':tr('PNG 图片'),'.jpg':tr('JPG 图片'),'.jpeg':tr('JPG 图片'),'.webp':tr('WebP 图片'),'.md':tr('MD 文档'),'.pdf':tr('PDF 文档'),'.docx':tr('Word 文档'),'.xlsx':tr('Excel 表格'),'.xls':tr('Excel 表格'),'.pptx':tr('PPT 演示稿'),'.csv':tr('CSV 表格'),'.tsv':tr('TSV 表格'),'.txt':tr('TXT 文本'),'.tex':tr('LaTeX 文稿'),'.excalidraw':tr('Excalidraw 图稿')})[ext]||ext?.slice(1).toUpperCase()||tr('文件');}
+function filesHtml(id){
+ const r=fileCache.get(id),heading=tr('<h3>产出文件</h3>');if(!r)return heading+tr('<p class="muted">正在读取文件记录…</p>');if(r.error&&!r.files)return heading+'<p>'+escapeHtml(r.error)+'</p>';if(!r.files.length)return heading+tr('<p class="muted">暂无可识别的产出文件</p>');
+ const groups=groupFiles(r.files);
+ return tr('<section class="file-list" aria-label="会话产出文件">')+heading+(r.error?'<p class="muted" role="status">'+escapeHtml(r.error)+tr(' · 已保留上次列表</p>'):'')+'<p class="file-list-hint">'+r.files.length+tr(' 个文件 · ')+groups.length+tr(' 个目录 · 同名格式并排，点击格式预览</p>')+groups.map(folder=>'<section class="file-folder" aria-label="'+escapeHtml(folder.title)+'"><h4 title="'+escapeHtml(folder.directory)+'">'+escapeHtml(folder.title)+'</h4>'+folder.items.map(item=>{
+  const annotated=item.files.find(x=>x.file.label),label=annotated?.file.label,key=id+'|'+item.files[0].file.path;
+  const variants=item.files.map(({file:f,index:i})=>{const canPreview=f.exists&&f.previewKind&&(f.previewKind!=='native'||canOpenFiles);return canPreview?'<button class="file-format" id="previewFile'+i+'" data-file-path="'+escapeHtml(f.path)+tr('" aria-label="在标签页预览 ')+escapeHtml(f.name)+'" title="'+escapeHtml(f.name)+tr(' · 在 Codex 标签页预览">')+escapeHtml(formatLabel(f))+'</button>':'<span class="file-unavailable" title="'+escapeHtml(f.name)+'">'+escapeHtml(formatLabel(f))+' · '+(f.exists?tr('暂不支持预览'):tr('不可访问'))+'</span>';}).join('');
+  const records=item.files.map(({file:f})=>'<div class="file-record-entry"><b>'+escapeHtml(f.name)+'</b><span>'+({add:tr('新建记录'),update:tr('修改记录'),write:tr('写入记录'),linked:tr('助手提供的文件链接')}[f.kind]||tr('文件记录'))+'</span><code>'+escapeHtml(f.path)+'</code>'+(f.label?tr('<span>交付链接原文：')+escapeHtml(f.label)+'</span>':'')+tr('<span>首次记录 ')+fmt(f.firstAt/1000)+tr(' · 最近记录 ')+fmt(f.lastAt/1000)+'</span></div>').join('');
+  return '<article class="file-item"><div class="file-row"><strong class="file-name">'+escapeHtml(item.name)+'</strong><div class="file-formats">'+variants+'</div></div>'+(label?'<div class="file-caption" title="'+escapeHtml(label)+tr('">交付时说明：')+escapeHtml((item.files.length>1?formatLabel(annotated.file)+' · ':'')+label)+'</div>':'')+'<details class="file-record" id="fileRecord'+item.index+'" data-file-path="'+escapeHtml(item.files[0].file.path)+'" '+(fileExpanded.has(key)?'open':'')+tr('><summary aria-label="查看 ')+escapeHtml(item.name)+tr(' 的文件记录">记录</summary><div class="file-record-body">')+records+'</div></details></article>';
+ }).join('')+'</section>').join('')+tr('<details class="file-explanation"><summary>文件分组与来源说明</summary><p>按目录和去掉扩展名后的同名分组；目录和条目按首次记录先后排列。不代表内容相同或存在版本、生成关系。说明引用历史交付链接原文，不代表文件当前内容。</p><p>')+escapeHtml(r.note)+'</p></details></section>';
+}
+async function loadFiles(id,g){const key=g+':'+id;if(fileCache.get(id)?.verifiedGeneration===g||filesPending.has(key))return;filesPending.add(key);try{const r=await call('get_session_files',{id});if(g===generation)fileCache.set(id,{...r,verifiedGeneration:g})}catch(e){if(g===generation)fileCache.set(id,{...(fileCache.get(id)||{}),error:tr('文件记录读取失败：')+e.message,verifiedGeneration:g})}finally{filesPending.delete(key);if(g===generation)render()}}
+
+function summaryControlsHtml(t,label,button,status=''){return '<div class="summary-controls"><div class="summary-action">'+button.replace('id="regenerate"','id="regenerate" aria-describedby="summaryUsage"').replace('</button>',(status?tr(' · 有新内容'):'')+'</button>')+tr('<span id="summaryUsage">AI 生成 · 使用 Codex 额度</span></div><details id="summaryControls" ')+(summaryExpanded.get(t.id)?'open':'')+tr('><summary>生成说明</summary><p>点击按钮后，将本会话最初2轮和最近8轮的消息摘录发送给当前 Codex 登录使用的 OpenAI 模型，生成或更新摘要；不读取项目文件，不包含工具输出。</p></details></div>');}
+
+function overviewHtml(t){
+ const r=overviewCache.get(t.id);
+ if(!r)return tr('<h3>需求摘录</h3><p>')+escapeHtml(readableExcerpt(t.preview||t.title))+tr('</p><p class="muted">正在读取已有摘要…</p>');
+ const snapshot=r.overview?r:r.previous;
+ if(snapshot){const hint=r.state==='generating'?tr('正在更新摘要，保留上次结果。'):r.state==='error'?tr('摘要更新失败：')+r.error:'';
+  return tr('<h3>任务目标</h3><p>')+escapeHtml(snapshot.overview.goal)+tr('</p><h3>当前进展</h3><p>')+escapeHtml(snapshot.overview.progress)+tr('</p><h3>下一步 / 待确认</h3><p>')+escapeHtml(snapshot.overview.next)+'</p>'+(hint||!r.stale?'<p class="'+(hint?'badge':'muted')+'">'+escapeHtml(hint||tr('已有摘要 · 与当前读取版本一致'))+'</p>':'')+tr('<p class="muted">生成于 ')+fmt(snapshot.generatedAt/1000)+tr(' · 基于会话版本 ')+fmt(snapshot.sourceUpdatedAt)+'</p>'+(r.state==='generating'?'':summaryControlsHtml(t,tr('更新任务摘要'),tr('<button id="regenerate">更新摘要</button>'),r.stale&&r.state!=='error'?tr('会话有新内容'):''));
+ }
+ if(r.state==='generating')return tr('<h3>任务概览</h3><p>正在生成目标、进展和下一步…</p>');
+ if(r.state==='consent_required')return tr('<h3>需求摘录</h3><p>')+escapeHtml(readableExcerpt(r.originalGoal||t.preview||t.title))+'</p>'+summaryControlsHtml(t,tr('生成任务摘要'),tr('<button id="regenerate">生成摘要</button>'));
+ return tr('<h3>已有摘要暂不可用</h3><p class="muted">')+escapeHtml(r.error||tr('请重试读取，或在原会话中查看完整记录。'))+'</p>'+summaryControlsHtml(t,tr('重新生成任务摘要'),tr('<button id="regenerate">重新生成摘要</button>'));
+}
+async function loadOverview(t,g,force=false,approved=false){const key=g+':'+t.id;if(overviewPending.has(key)||(!force&&overviewCache.has(t.id)&&overviewCache.get(t.id).state!=='generating'&&overviewCache.get(t.id).verifiedGeneration===g))return;overviewPending.add(key);if(force){const old=overviewCache.get(t.id);overviewCache.set(t.id,{state:'generating',previous:old?.overview?old:old?.previous})}try{let r=await call('get_task_overview',{id:t.id,updatedAt:t.updatedAt,force,approved});while(r.state==='generating'&&g===generation&&selected===t.id){overviewCache.set(t.id,{...r,verifiedGeneration:g});await new Promise(resolve=>setTimeout(resolve,3000));r=await call('get_task_overview',{id:t.id,updatedAt:t.updatedAt});}if(g===generation){overviewCache.set(t.id,{...r,verifiedGeneration:g});if(selected===t.id)render()}}catch(e){if(g===generation){overviewCache.set(t.id,{state:'error',error:e.message,previous:overviewCache.get(t.id)?.overview?overviewCache.get(t.id):overviewCache.get(t.id)?.previous,verifiedGeneration:g});if(selected===t.id)render()}}finally{overviewPending.delete(key)}}
+
+function projectHtml(scoped){
+ if(!project)return tr('<h2>工作空间概况</h2><p>按项目找到会话，回忆任务并查看产出。</p>');
+ if(project==='unassigned')return tr('<h2>未归类会话</h2><p>')+scoped.length+tr(' 个会话尚未归入正式项目，不合并生成项目概况。</p>');
+ const r=projectCache.get(project);if(!r)return tr('<h2>项目概况</h2><p>正在读取已有概况…</p>');
+ if(r.state==='empty')return tr('<h2>项目概况</h2><p>该项目暂无会话。</p>');
+ const snapshot=r.overview?r:r.previous,notice=r.state==='generating'?tr('概况更新中，保留上次结果。'):r.state==='error'?tr('更新失败：')+r.error:r.stale?tr('概况待更新'):'';
+ const consent=tr('<p class="muted">生成或更新会将本项目最近最多20个会话的标题、初始与近期消息摘录发送给当前 Codex 登录使用的 OpenAI 模型，使用 Codex 额度；不包含工具输出，不读取项目文件。</p>');
+ const button=r.state==='generating'?'':'<button id="generateProject">'+(snapshot?tr('同意发送摘录并更新概况'):tr('同意发送项目会话摘录并生成概况'))+'</button>';
+ const open=projectExpanded.get(project)?'open':'';
+ if(!snapshot)return tr('<h2>项目概况</h2><p>')+escapeHtml(r.state==='generating'?tr('正在综合项目会话…'):r.state==='error'?r.error:tr('尚未生成项目概况'))+'</p><details id="projectDetails" '+open+tr('><summary>查看说明与整理项目概况</summary><p class="muted">')+escapeHtml(r.note||tr('概况综合多个会话，不以最后一条消息代替项目状态。'))+'</p>'+consent+button+'</details>';
+ const o=snapshot.overview,sources=snapshot.sources||[];
+ const rows=(items,kind)=>items.length?'<ul>'+items.map(x=>'<li>'+escapeHtml(kind==='workstreams'?x.title+'：'+x.progress:x.text)+tr(' <small class="muted">来源 ')+x.sources.map(id=>{const i=sources.findIndex(s=>s.id===id);return i<0?'?':i+1}).join('、')+'</small></li>').join('')+'</ul>':tr('<p class="muted">暂无明确记录</p>');
+ return tr('<div class="row"><h2>项目概况</h2>')+(notice?'<span class="badge">'+escapeHtml(notice)+'</span>':'')+'</div><p class="project-goal">'+escapeHtml(o.goal)+tr('</p><p class="overview-meta">主要工作 ')+o.workstreams.length+tr(' · 成果 ')+o.deliverables.length+tr(' · 待推进 ')+o.next.length+tr(' · 覆盖 ')+snapshot.coveredCount+' / '+snapshot.totalCount+tr(' 个会话</p><details id="projectDetails" ')+open+tr('><summary>展开目标、工作、成果与待办</summary><h3>完整目标</h3><p>')+escapeHtml(o.goal)+tr('</p><h3>主要工作</h3>')+rows(o.workstreams,'workstreams')+tr('<h3>已交付成果</h3>')+rows(o.deliverables)+tr('<h3>待推进事项</h3>')+rows(o.next)+tr('<h3>依据会话</h3>')+sources.map((x,i)=>'<button class="source" id="projectSource'+i+'">'+(i+1)+'. '+escapeHtml(x.title)+'</button>').join('')+tr('<p class="muted">生成于 ')+fmt(snapshot.generatedAt/1000)+' · '+escapeHtml(snapshot.note)+'</p>'+consent+button+'</details>';
+}
+async function loadProject(id,g,approved=false,force=false){const key=g+':'+id;if(projectPending.has(key)||(!force&&projectCache.has(id)&&projectCache.get(id).state!=='generating'&&projectCache.get(id).verifiedGeneration===g))return;projectPending.add(key);if(force){const old=projectCache.get(id);projectCache.set(id,{state:'generating',previous:old?.overview?old:old?.previous})}try{let r=await call('get_project_overview',{projectId:id,approved,force});while(r.state==='generating'&&g===generation&&project===id){projectCache.set(id,{...r,verifiedGeneration:g});await new Promise(resolve=>setTimeout(resolve,3000));r=await call('get_project_overview',{projectId:id});}if(g===generation){projectCache.set(id,{...r,verifiedGeneration:g});if(project===id)render()}}catch(e){if(g===generation){projectCache.set(id,{state:'error',error:e.message,previous:projectCache.get(id)?.overview?projectCache.get(id):projectCache.get(id)?.previous,verifiedGeneration:g});if(project===id)render()}}finally{projectPending.delete(key)}}
+
+function cardSummary(t){const value=overviewCache.get(t.id);const snapshot=value?.overview?value:value?.previous;if(snapshot?.overview){if(t.summary&&(t.summary.sourceUpdatedAt>(snapshot.sourceUpdatedAt||0)||t.summary.generatedAt>(snapshot.generatedAt||0)))return t.summary;return {...snapshot.overview,stale:!!value.stale||snapshot.sourceUpdatedAt!==t.updatedAt,generatedAt:snapshot.generatedAt};}return t.summary||null;}
+function readableExcerpt(value){let text=String(value||'');if(/^(?:#?\s*Context from my IDE setup:|Files mentioned by the user:)/i.test(text)&&text.includes('My request:'))text=text.slice(text.lastIndexOf('My request:')+11);return text.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/codex:\/\/threads\/[\w-]+/g,'参考会话').replace(/https?:\/\/\S+/g,'相关链接').replace(/^#+\s*/gm,'').replace(/\*\*|`/g,'').trim();}
+function brief(text,max=96){const normalized=readableExcerpt(text).replace(/\s+/g,' ').trim();return normalized.length>max?normalized.slice(0,max)+'…':normalized;}
+function cardHtml(t,pr){const summary=cardSummary(t);const goal=summary?.goal||t.preview||t.title,status=summary?(summary.stale?tr('摘要待更新'):tr('已有摘要')):tr('原始摘录');return '<h3>'+escapeHtml(t.title)+'</h3><p class="card-goal">'+escapeHtml(brief(goal))+'</p><p class="card-progress">'+(summary?tr('进展：'):tr('近况摘录：'))+escapeHtml(brief(summary?.progress||pr?.text||tr('正在读取最近回复…')))+'</p><div class="session-meta"><span>'+(!project?escapeHtml(t.project==='unassigned'?tr('未归类'):t.projectName)+' · ':'')+shortTime(t.updatedAt)+'</span><span class="card-state '+(summary?.stale?'stale':'')+'">'+status+'</span></div>';}
+async function checkVersion(){const button=$('checkVersion');button.disabled=true;try{const r=await call('get_workbench_status',{uiVersion:UI_VERSION});$('versionStatus').textContent=tr('界面 v')+UI_VERSION+tr(' · 服务 v')+r.serviceVersion+(r.versionsMatch?tr('（一致）'):tr('（不一致，请重新加载）'));$('versionWarning').textContent=r.versionsMatch?'':tr('工作台界面与服务版本不一致。刷新数据不会升级页面，请完全退出 Codex 后重新打开。');}catch(e){$('versionStatus').textContent=tr('界面 v')+UI_VERSION+tr(' · 服务版本检查失败：')+e.message;}finally{button.disabled=false}}
+$('checkVersion').onclick=checkVersion;
+
+async function openArtifact(id,file){const control=$('previewFile'+(fileCache.get(id)?.files||[]).indexOf(file));if(control)control.disabled=true;if(id===selected)$('detailMessage').textContent=tr('正在打开 ')+file.name+'…';try{let r;if(file.previewKind==='native')r=await rpc('openai/files/open',{path:file.path});else{const p=await rpc('tools/call',{name:'open_preview_tab',arguments:{id,path:file.path}});if(p.isError)throw Error(p.content?.find(c=>c.type==='text')?.text||tr('无法准备文件预览'));if(!p._meta?.openUrl)throw Error(tr('宿主未返回标签页地址，请检查界面与服务版本'));r=await rpc('ui/open-link',{url:p._meta.openUrl});}if(r?.isError)throw Error(tr('Codex 拒绝打开标签页'));if(id===selected)$('detailMessage').textContent='';}catch(e){const text=tr('打开预览标签页失败：')+e.message;if(id===selected)$('detailMessage').textContent=text;else $('message').textContent=text;}finally{if(control?.isConnected)control.disabled=false;}}
+
+async function setupOnboarding(){
+ const box=$('onboarding');
+ try{const state=await call('workbench_onboarding');setLanguagePreference(state.language||'auto');if(state.decision||!threads.length)return;
+ const t=[...threads].sort((a,b)=>b.updatedAt-a.updatedAt)[0],p=declaredProjects.find(p=>p.id===t.project);
+ setHtml(box,tr('<h2>先体验一次 AI 摘要</h2><p>为最近会话「')+escapeHtml(t.title)+'」'+(p?tr('及所属项目「')+escapeHtml(p.id==='unassigned'?tr('未归类'):p.name)+'」':'')+tr('生成摘要。已有有效摘要直接复用。</p><p class="muted">会将部分会话消息发送给 OpenAI 模型，使用 Codex 额度。其他摘要由你主动生成。</p><button class="action" id="startExperience">生成并体验</button> <button class="quiet" id="skipExperience">暂时跳过</button><p id="experienceStatus" role="status"></p>'));box.hidden=false;
+ $('skipExperience').onclick=async()=>{try{await call('workbench_onboarding',{action:'skip'});box.hidden=true}catch(e){$('experienceStatus').textContent=e.message}};
+ $('startExperience').onclick=async()=>{
+ $('startExperience').disabled=true;$('startExperience').textContent=tr('正在生成…');$('skipExperience').textContent=tr('收起引导');$('skipExperience').onclick=()=>{box.hidden=true};
+ try{await call('workbench_onboarding',{action:'accept'});project=p?.id||'';selected=t.id;mobileDetail=innerWidth<=800;render();const g=generation;
+ const run=async(kind,args)=>{let r=await call(kind,args);while(r.state==='generating'){await new Promise(resolve=>setTimeout(resolve,3000));r=await call(kind,kind==='get_task_overview'?{id:t.id,updatedAt:t.updatedAt}:{projectId:p.id})}return r};
+ $('experienceStatus').textContent=tr('正在生成会话摘要，可继续浏览…');
+ const task=await run('get_task_overview',{id:t.id,updatedAt:t.updatedAt,approved:true});overviewCache.set(t.id,{...task,verifiedGeneration:g});render();
+ let pr=null;if(p){$('experienceStatus').textContent=tr('会话已处理，正在生成项目概况…');pr=await run('get_project_overview',{projectId:p.id,approved:true});projectCache.set(p.id,{...pr,verifiedGeneration:g});render()}
+ $('experienceStatus').textContent=(task.state==='ready'||task.overview)&&(!p||pr?.overview)?tr('摘要已就绪。其他摘要可按需生成。'):tr('部分摘要未完成，请在对应摘要区域重试；已有结果已保留。');
+ }catch(e){$('experienceStatus').textContent=tr('体验未完成：')+e.message+tr('。已有结果保留，可在摘要区域重试。')}finally{$('startExperience').hidden=true;$('skipExperience').textContent=tr('关闭引导');}
+ };
+ }catch(e){box.hidden=false;box.textContent=tr('首次体验引导暂不可用：')+e.message;}
+}
+</script></body></html>

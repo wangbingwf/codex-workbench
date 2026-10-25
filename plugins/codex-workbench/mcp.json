@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "workbench": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "./server.mjs"
+      ],
+      "cwd": "./",
+      "env": {
+        "WORKBENCH_DATA_DIR": "${PLUGIN_DATA}"
+      }
+    }
+  },
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json"
+}

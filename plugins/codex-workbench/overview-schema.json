@@ -1,0 +1,1 @@
+{"type":"object","additionalProperties":false,"properties":{"goal":{"type":"string"},"progress":{"type":"string"},"next":{"type":"string"}},"required":["goal","progress","next"]}

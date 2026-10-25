@@ -1,0 +1,12 @@
+.DS_Store
+node_modules/
+.env
+.env.*
+!.env.example
+dist/
+coverage/
+*.log
+*.sqlite*
+*.jsonl
+onboarding.json
+workbench-data/

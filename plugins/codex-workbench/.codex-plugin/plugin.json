@@ -1,0 +1,22 @@
+{
+  "name": "codex-workbench",
+  "version": "0.9.0",
+  "description": "Codex 本地项目、会话进展与产出工作台",
+  "author": {
+    "name": "Codex Workbench contributors"
+  },
+  "interface": {
+    "displayName": "Codex 工作台",
+    "shortDescription": "按项目浏览会话与最新进展",
+    "longDescription": "综合项目会话整理目标、工作方向、成果和待办，附来源；展示任务摘要、产出文件并支持刷新。旧概况保留，更新需确认。",
+    "developerName": "Codex Workbench contributors",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive"
+    ],
+    "defaultPrompt": "打开 Codex 工作台",
+    "logo": "./assets/workbench.svg",
+    "composerIcon": "./assets/workbench.svg"
+  },
+  "mcpServers": "./mcp.json"
+}
