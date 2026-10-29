@@ -14,7 +14,7 @@
 html[lang="en"] .file-item{padding-right:68px}html[lang="en"] .file-record>summary{min-width:60px}
 </style></head><body>
 <div id="page-scroll" role="region" aria-label="工作台页面" tabindex="0">
-<aside><div class="logo"><img width="28" height="28" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDY0IDY0Ij4KICA8dGl0bGU+Q29kZXgg5bel5L2c5Y+wPC90aXRsZT4KICA8cmVjdCB4PSIyIiB5PSIyIiB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHJ4PSIxNSIgZmlsbD0iIzI4N2I1NSIvPgogIDxyZWN0IHg9IjE0IiB5PSIxNCIgd2lkdGg9IjE0IiBoZWlnaHQ9IjM2IiByeD0iMyIgZmlsbD0iI2ZmZmZmZiIvPgogIDxyZWN0IHg9IjM0IiB5PSIxNCIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE0IiByeD0iMyIgZmlsbD0iI2ZmZmZmZiIvPgogIDxyZWN0IHg9IjM0IiB5PSIzNCIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiByeD0iMyIgZmlsbD0iI2I4ZTBjNiIvPgo8L3N2Zz4K"><span>工作台</span></div><div class="nav-label">项目</div><nav id="projects" aria-label="按项目浏览"></nav><div class="sidebar-footer">本地只读 · v0.9.1<br>按最近会话更新排列</div></aside>
+<aside><div class="logo"><img width="28" height="28" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDY0IDY0Ij4KICA8dGl0bGU+Q29kZXgg5bel5L2c5Y+wPC90aXRsZT4KICA8cmVjdCB4PSIyIiB5PSIyIiB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHJ4PSIxNSIgZmlsbD0iIzI4N2I1NSIvPgogIDxyZWN0IHg9IjE0IiB5PSIxNCIgd2lkdGg9IjE0IiBoZWlnaHQ9IjM2IiByeD0iMyIgZmlsbD0iI2ZmZmZmZiIvPgogIDxyZWN0IHg9IjM0IiB5PSIxNCIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE0IiByeD0iMyIgZmlsbD0iI2ZmZmZmZiIvPgogIDxyZWN0IHg9IjM0IiB5PSIzNCIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiByeD0iMyIgZmlsbD0iI2I4ZTBjNiIvPgo8L3N2Zz4K"><span>工作台</span></div><div class="nav-label">项目</div><nav id="projects" aria-label="按项目浏览"></nav><div class="sidebar-footer">本地只读 · v0.9.2<br>按最近会话更新排列</div></aside>
 <main><header><div class="header-title"><h1 id="heading">全部项目</h1><div class="header-meta"><span id="stats"></span><span id="sync" role="status">正在连接 Codex…</span></div></div><button class="quiet" id="refresh" disabled title="重新读取记录与已有摘要，不自动调用模型">刷新数据</button></header>
 <details id="versionHelp"><summary>版本与连接</summary><label for="language">Language / 语言</label> <select id="language" aria-label="Language / 语言"><option value="auto">自动 / Auto</option><option value="zh-CN">简体中文</option><option value="en">English</option></select><p id="versionStatus">正在检查运行版本…</p><button class="quiet" id="checkVersion">检查界面与服务版本</button><p class="muted">刷新数据不会升级界面。更新后请关闭并重新打开工作台；版本未变化时，完全退出 Codex（⌘Q）后重启。</p><p id="scope" class="muted">仅读取当前设备；不含归档和子代理会话。</p></details>
 <div id="versionWarning" role="status"></div><p id="message" role="alert"></p><section id="onboarding" hidden aria-label="首次体验"></section><section id="overview" aria-label="项目概况"></section>
@@ -216,9 +216,7 @@ html[lang="en"] .file-item{padding-right:68px}html[lang="en"] .file-record>summa
   "（一致）": "(match)",
   "（不一致，请重新加载）": "(mismatch; reload)",
   "当前设备的本地 Codex 会话；按 Codex 正式项目归属分组，其余统一未归类；不含归档与子代理会话": "Local Codex chats on this device, grouped by explicit project membership; other chats are unassigned. Archived and subagent chats are excluded",
-  "参考资料": "References",
-  "引用说明：": "Reference caption: ",
-  "仅被会话引用的 skill、规则或模板，不代表本任务交付成果。": "Skills, rules or templates linked in the chat; these are not task deliverables."
+  "仅显示有成功写入证据的文档；仅引用及无法确认的脚本产物不展示。": "Only documents with successful write evidence are shown. Links and unverified script outputs are excluded."
 }
 ;
 let languagePreference='auto',hostLocale='',uiLocale='zh-CN';
@@ -241,7 +239,7 @@ queueMicrotask(applyLanguage);
 
 function updateLocalizedMetadata(){if(!latestSync)return;document.getElementById('sync').textContent=tr('同步 ')+shortTime(latestSync/1000);document.getElementById('sync').title=tr('数据同步：')+fmt(latestSync/1000)+tr(' · 北京时间');document.getElementById('scope').textContent=tr(latestScope)+tr('。读取不调用模型；摘要需明确同意后生成，使用 Codex 额度。');}
 
-const UI_VERSION='0.9.1';
+const UI_VERSION='0.9.2';
 const $=id=>document.getElementById(id);
 const escapeHtml=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>n?new Date(n*1000).toLocaleString(uiLocale,{timeZone:'Asia/Shanghai',hour12:false}):tr('时间未知');
@@ -282,7 +280,7 @@ function render(){
   setHtml($('detailHeader'),'<div class="detail-eyebrow">'+escapeHtml(t.project==='unassigned'?tr('未归类'):t.projectName)+'</div><div class="detail-heading"><div><h2>'+escapeHtml(t.title)+tr('</h2><p class="detail-date">更新于 ')+shortTime(t.updatedAt)+tr('</p></div><button class="action" id="openThread">打开会话 ↗</button></div>'));
   $('openThread').onclick=()=>openThread(t.id);
   if(!lastTask||lastTask.id!==t.id||lastTask.record!==taskRecord){setHtml($('taskOverview'),overviewHtml(t));lastTask={id:t.id,record:taskRecord};const controls=$('summaryControls');if(controls){const id=t.id;controls.ontoggle=()=>{if(controls.isConnected)summaryExpanded.set(id,controls.open)}}if($('regenerate'))$('regenerate').onclick=()=>{loadOverview(t,generation,true,true);render()};}
-  if(!lastFiles||lastFiles.id!==t.id||lastFiles.record!==filesRecord){setHtml($('files'),filesHtml(t.id));const references=$('fileReferences');if(references)references.ontoggle=()=>{if(references.isConnected){const key=t.id+'|references';if(references.open)fileExpanded.add(key);else fileExpanded.delete(key)}};lastFiles={id:t.id,record:filesRecord};for(const [i,file] of (filesRecord?.files||[]).entries()){const b=$('previewFile'+i);if(b)b.onclick=()=>openArtifact(t.id,file);const record=$('fileRecord'+i);if(record){const key=t.id+'|'+file.path;record.ontoggle=()=>{if(record.isConnected){if(record.open)fileExpanded.add(key);else fileExpanded.delete(key)}}}}}
+  if(!lastFiles||lastFiles.id!==t.id||lastFiles.record!==filesRecord){setHtml($('files'),filesHtml(t.id));lastFiles={id:t.id,record:filesRecord};for(const [i,file] of (filesRecord?.files||[]).entries()){const b=$('previewFile'+i);if(b)b.onclick=()=>openArtifact(t.id,file);const record=$('fileRecord'+i);if(record){const key=t.id+'|'+file.path;record.ontoggle=()=>{if(record.isConnected){if(record.open)fileExpanded.add(key);else fileExpanded.delete(key)}}}}}
   $('rawReply').hidden=false;$('rawReply').open=rawExpanded.get(t.id)||false;$('rawReply').ontoggle=()=>rawExpanded.set(t.id,$('rawReply').open);$('rawText').textContent=pr?.text||tr('正在读取…');$('rawMeta').textContent=tr('来源：')+(pr?.source||tr('加载中'))+' · '+fmt(pr?.summaryAt);
   loadProgress(t.id,generation);loadFiles(t.id,generation);loadOverview(t,generation);
  }else{$('detailMessage').textContent='';setHtml($('detailHeader'),tr('<p class="empty">选择会话，查看目标、进展与产出。</p>'));setHtml($('taskOverview'),'');setHtml($('files'),'');$('rawReply').hidden=true;lastTask=null;lastFiles=null;}
@@ -297,8 +295,8 @@ $('refresh').onclick=refresh;$('mobileProject').onchange=()=>chooseProject($('mo
 for(const id of ['query','order'])$(id).addEventListener(id==='query'?'input':'change',()=>{limit=20;$('session-list-pane').scrollTop=0;render();loadVisible()});$('more').onclick=()=>{limit+=20;render();loadVisible()};
 (async()=>{try{const init=await rpc('ui/initialize',{appInfo:{name:'codex-workbench',version:UI_VERSION},appCapabilities:{},protocolVersion:'2026-01-26'});setHostLocale(init.hostContext?.locale);canOpenFiles=!!init.hostCapabilities?.experimental?.['openai/files'];connected=true;parent.postMessage({jsonrpc:'2.0',method:'ui/notifications/initialized',params:{}},hostOrigin||'*');$('refresh').disabled=false;await checkVersion();await refresh();await setupOnboarding()}catch(e){$('sync').textContent=tr('连接失败');$('message').textContent=e.message}})();
 
-function groupFiles(files,allFiles=files){
- const folders=new Map();for(const file of files){const index=allFiles.indexOf(file);
+function groupFiles(files){
+ const folders=new Map();for(const [index,file] of files.entries()){
   const slash=file.path.lastIndexOf('/'),directory=file.path.slice(0,slash)||'/',name=file.name||file.path.slice(slash+1),stem=name.replace(/(?:\.draw\.io|\.[^.]+)$/i,'')||name;
   if(!folders.has(directory))folders.set(directory,{directory,items:new Map()});const folder=folders.get(directory);
   if(!folder.items.has(stem))folder.items.set(stem,{name:stem,index,files:[]});folder.items.get(stem).files.push({file,index});
@@ -308,18 +306,13 @@ function groupFiles(files,allFiles=files){
 }
 function formatLabel(file){const ext=file.name.match(/(?:\.draw\.io|\.[^.]+)$/i)?.[0].toLowerCase();return ({'.html':tr('HTML 网页'),'.htm':tr('HTML 网页'),'.drawio':tr('draw.io 图稿'),'.draw.io':tr('draw.io 图稿'),'.svg':tr('SVG 矢量图'),'.png':tr('PNG 图片'),'.jpg':tr('JPG 图片'),'.jpeg':tr('JPG 图片'),'.webp':tr('WebP 图片'),'.md':tr('MD 文档'),'.pdf':tr('PDF 文档'),'.docx':tr('Word 文档'),'.xlsx':tr('Excel 表格'),'.xls':tr('Excel 表格'),'.pptx':tr('PPT 演示稿'),'.csv':tr('CSV 表格'),'.tsv':tr('TSV 表格'),'.txt':tr('TXT 文本'),'.tex':tr('LaTeX 文稿'),'.excalidraw':tr('Excalidraw 图稿')})[ext]||ext?.slice(1).toUpperCase()||tr('文件');}
 function filesHtml(id){
- const r=fileCache.get(id);if(!r?.files)return fileSectionHtml(id,r);
- const outputs=r.files.filter(f=>f.role!=='reference'),references=r.files.filter(f=>f.role==='reference');
- return fileSectionHtml(id,{...r,files:outputs})+(references.length?'<details id="fileReferences" class="file-explanation" '+(fileExpanded.has(id+'|references')?'open':'')+'><summary>'+tr('参考资料')+' · '+references.length+'</summary>'+fileSectionHtml(id,{files:references,note:tr('仅被会话引用的 skill、规则或模板，不代表本任务交付成果。')},true)+'</details>':'');
-}
-function fileSectionHtml(id,r,reference=false){
- const heading=reference?'':tr('<h3>产出文件</h3>');if(!r)return heading+tr('<p class="muted">正在读取文件记录…</p>');if(r.error&&!r.files)return heading+'<p>'+escapeHtml(r.error)+'</p>';if(!r.files.length)return heading+tr('<p class="muted">暂无可识别的产出文件</p>');
- const groups=groupFiles(r.files,fileCache.get(id).files);
- return '<section class="file-list" aria-label="'+tr(reference?'参考资料':'会话产出文件')+'">'+heading+(r.error?'<p class="muted" role="status">'+escapeHtml(r.error)+tr(' · 已保留上次列表</p>'):'')+'<p class="file-list-hint">'+r.files.length+tr(' 个文件 · ')+groups.length+tr(' 个目录 · 同名格式并排，点击格式预览</p>')+groups.map(folder=>'<section class="file-folder" aria-label="'+escapeHtml(folder.title)+'"><h4 title="'+escapeHtml(folder.directory)+'">'+escapeHtml(folder.title)+'</h4>'+folder.items.map(item=>{
+ const r=fileCache.get(id),heading=tr('<h3>产出文件</h3>')+(r?tr('<p class="muted">仅显示有成功写入证据的文档；仅引用及无法确认的脚本产物不展示。</p>'):'');if(!r)return heading+tr('<p class="muted">正在读取文件记录…</p>');if(r.error&&!r.files)return heading+'<p>'+escapeHtml(r.error)+'</p>';if(!r.files.length)return heading+tr('<p class="muted">暂无可识别的产出文件</p>');
+ const groups=groupFiles(r.files);
+ return tr('<section class="file-list" aria-label="会话产出文件">')+heading+(r.error?'<p class="muted" role="status">'+escapeHtml(r.error)+tr(' · 已保留上次列表</p>'):'')+'<p class="file-list-hint">'+r.files.length+tr(' 个文件 · ')+groups.length+tr(' 个目录 · 同名格式并排，点击格式预览</p>')+groups.map(folder=>'<section class="file-folder" aria-label="'+escapeHtml(folder.title)+'"><h4 title="'+escapeHtml(folder.directory)+'">'+escapeHtml(folder.title)+'</h4>'+folder.items.map(item=>{
   const annotated=item.files.find(x=>x.file.label),label=annotated?.file.label,key=id+'|'+item.files[0].file.path;
   const variants=item.files.map(({file:f,index:i})=>{const canPreview=f.exists&&f.previewKind&&(f.previewKind!=='native'||canOpenFiles);return canPreview?'<button class="file-format" id="previewFile'+i+'" data-file-path="'+escapeHtml(f.path)+tr('" aria-label="在标签页预览 ')+escapeHtml(f.name)+'" title="'+escapeHtml(f.name)+tr(' · 在 Codex 标签页预览">')+escapeHtml(formatLabel(f))+'</button>':'<span class="file-unavailable" title="'+escapeHtml(f.name)+'">'+escapeHtml(formatLabel(f))+' · '+(f.exists?tr('暂不支持预览'):tr('不可访问'))+'</span>';}).join('');
   const records=item.files.map(({file:f})=>'<div class="file-record-entry"><b>'+escapeHtml(f.name)+'</b><span>'+({add:tr('新建记录'),update:tr('修改记录'),write:tr('写入记录'),linked:tr('助手提供的文件链接')}[f.kind]||tr('文件记录'))+'</span><code>'+escapeHtml(f.path)+'</code>'+(f.label?tr('<span>交付链接原文：')+escapeHtml(f.label)+'</span>':'')+tr('<span>首次记录 ')+fmt(f.firstAt/1000)+tr(' · 最近记录 ')+fmt(f.lastAt/1000)+'</span></div>').join('');
-  return '<article class="file-item"><div class="file-row"><strong class="file-name">'+escapeHtml(item.name)+'</strong><div class="file-formats">'+variants+'</div></div>'+(label?'<div class="file-caption" title="'+escapeHtml(label)+(reference?tr('">引用说明：'):tr('">交付时说明：'))+escapeHtml((item.files.length>1?formatLabel(annotated.file)+' · ':'')+label)+'</div>':'')+'<details class="file-record" id="fileRecord'+item.index+'" data-file-path="'+escapeHtml(item.files[0].file.path)+'" '+(fileExpanded.has(key)?'open':'')+tr('><summary aria-label="查看 ')+escapeHtml(item.name)+tr(' 的文件记录">记录</summary><div class="file-record-body">')+records+'</div></details></article>';
+  return '<article class="file-item"><div class="file-row"><strong class="file-name">'+escapeHtml(item.name)+'</strong><div class="file-formats">'+variants+'</div></div>'+(label?'<div class="file-caption" title="'+escapeHtml(label)+tr('">交付时说明：')+escapeHtml((item.files.length>1?formatLabel(annotated.file)+' · ':'')+label)+'</div>':'')+'<details class="file-record" id="fileRecord'+item.index+'" data-file-path="'+escapeHtml(item.files[0].file.path)+'" '+(fileExpanded.has(key)?'open':'')+tr('><summary aria-label="查看 ')+escapeHtml(item.name)+tr(' 的文件记录">记录</summary><div class="file-record-body">')+records+'</div></details></article>';
  }).join('')+'</section>').join('')+tr('<details class="file-explanation"><summary>文件分组与来源说明</summary><p>按目录和去掉扩展名后的同名分组；目录和条目按首次记录先后排列。不代表内容相同或存在版本、生成关系。说明引用历史交付链接原文，不代表文件当前内容。</p><p>')+escapeHtml(r.note)+'</p></details></section>';
 }
 async function loadFiles(id,g){const key=g+':'+id;if(fileCache.get(id)?.verifiedGeneration===g||filesPending.has(key))return;filesPending.add(key);try{const r=await call('get_session_files',{id});if(g===generation)fileCache.set(id,{...r,verifiedGeneration:g})}catch(e){if(g===generation)fileCache.set(id,{...(fileCache.get(id)||{}),error:tr('文件记录读取失败：')+e.message,verifiedGeneration:g})}finally{filesPending.delete(key);if(g===generation)render()}}

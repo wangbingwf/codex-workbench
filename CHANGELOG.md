@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.2 — Community Beta
+
+- Require successful file-change or recognized direct-write evidence for output documents.
+- Links only supply captions for already verified outputs; no skill-specific filtering or reference section.
+- Decode logged shell wrappers without executing them; exclude subsequently deleted files.
+
+
 ## 0.9.1 — Community Beta
 
 - Separate linked skill/instruction references from task outputs, collapsed by default.

@@ -192,7 +192,5 @@
   "（一致）": "(match)",
   "（不一致，请重新加载）": "(mismatch; reload)",
   "当前设备的本地 Codex 会话；按 Codex 正式项目归属分组，其余统一未归类；不含归档与子代理会话": "Local Codex chats on this device, grouped by explicit project membership; other chats are unassigned. Archived and subagent chats are excluded",
-  "参考资料": "References",
-  "引用说明：": "Reference caption: ",
-  "仅被会话引用的 skill、规则或模板，不代表本任务交付成果。": "Skills, rules or templates linked in the chat; these are not task deliverables."
+  "仅显示有成功写入证据的文档；仅引用及无法确认的脚本产物不展示。": "Only documents with successful write evidence are shown. Links and unverified script outputs are excluded."
 }
