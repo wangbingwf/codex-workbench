@@ -1,6 +1,6 @@
 {
   "name": "codex-workbench",
-  "version": "0.9.2",
+  "version": "0.10.0",
   "description": "Codex 本地项目、会话进展与产出工作台",
   "author": {
     "name": "Codex Workbench contributors"

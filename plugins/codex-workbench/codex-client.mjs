@@ -9,7 +9,7 @@ export function connect(){
  proc.on('error',fail);proc.on('exit',fail);proc.stderr.on('data',()=>{});
  createInterface({input:proc.stdout}).on('line',line=>{let m;try{m=JSON.parse(line)}catch{return}const p=pending.get(m.id);if(!p)return;pending.delete(m.id);clearTimeout(p.timer);m.error?p.reject(Error(m.error.message)):p.resolve(m.result)});
  function request(method,params){return new Promise((resolve,reject)=>{const id=++seq;const timer=setTimeout(()=>{pending.delete(id);reject(Error('读取 Codex 数据超时，请重试'))},30000);pending.set(id,{resolve,reject,timer});proc.stdin.write(JSON.stringify({id,method,params})+'\n')})}
- const ready=request('initialize',{clientInfo:{name:'codex-workbench',version:'0.9.2'},capabilities:{experimentalApi:true}});
+ const ready=request('initialize',{clientInfo:{name:'codex-workbench',version:'0.10.0'},capabilities:{experimentalApi:true}});
  client={async call(method,params){await ready;return request(method,params)},close(){proc.kill();client=null}};
  process.once('exit',()=>proc.kill());
  return client;

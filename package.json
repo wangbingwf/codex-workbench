@@ -1,13 +1,15 @@
 {
-  "name":"codex-workbench-community",
-  "version":"0.9.2",
-  "private":true,
-  "license":"MIT",
-  "engines":{"node":">=20"},
-  "scripts":{
-    "build":"node scripts/build-ui.cjs",
-    "preflight":"node scripts/preflight.mjs",
-    "demo":"node demo/serve.mjs",
-    "test":"node scripts/check-files.mjs && node scripts/check-summary-cards.mjs && node scripts/check-overview.mjs && node scripts/check-project-overview.mjs && node scripts/check-preview.mjs && node scripts/check-release.mjs"
+  "name": "codex-workbench-community",
+  "version": "0.10.0",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node scripts/build-ui.cjs",
+    "preflight": "node scripts/preflight.mjs",
+    "demo": "node demo/serve.mjs",
+    "test": "node scripts/check-files.mjs && node scripts/check-summary-cards.mjs && node scripts/check-overview.mjs && node scripts/check-project-overview.mjs && node scripts/check-preview.mjs && node scripts/check-script-provenance.mjs && node scripts/check-release.mjs"
   }
 }

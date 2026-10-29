@@ -12,12 +12,13 @@ with tempfile.TemporaryDirectory(prefix='workbench-install-') as tmp:
   return json.loads(r.stdout)
  run('plugin','marketplace','add','.', '--json')
  initial=json.loads((checkout/'plugins/codex-workbench/plugin.json').read_text())['version']
+ parts=initial.split('.');parts[-1]=str(int(parts[-1])+1);next_version='.'.join(parts)
  selector='codex-workbench@codex-workbench-community'
  def version(value):
   for filename in ['plugin.json','.codex-plugin/plugin.json']:
    p=checkout/'plugins/codex-workbench'/filename;d=json.loads(p.read_text());d['version']=value;p.write_text(json.dumps(d))
  assert run('plugin','add',selector,'--json')['version']==initial
- version('0.9.99');assert run('plugin','add',selector,'--json')['version']=='0.9.99'
+ version(next_version);assert run('plugin','add',selector,'--json')['version']==next_version
  version(initial);assert run('plugin','add',selector,'--json')['version']==initial
  run('plugin','remove',selector,'--json')
  print('PASS isolated marketplace: install -> update -> rollback -> uninstall; real config untouched')

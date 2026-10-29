@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.10.0 — Community Beta
+
+- Recover outputs from recorded inline/external Python script writes, source patches and successful execution records.
+- Parse AST only; never execute historical code or read present-day scripts.
+- Suppress undelivered temporary script artifacts; keep references excluded.
+- Optional Python 3.8+ dependency with graceful fallback for unsupported cases.
+
 ## 0.9.2 — Community Beta
 
 - Require successful file-change or recognized direct-write evidence for output documents.

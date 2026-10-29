@@ -192,5 +192,7 @@
   "（一致）": "(match)",
   "（不一致，请重新加载）": "(mismatch; reload)",
   "当前设备的本地 Codex 会话；按 Codex 正式项目归属分组，其余统一未归类；不含归档与子代理会话": "Local Codex chats on this device, grouped by explicit project membership; other chats are unassigned. Archived and subagent chats are excluded",
-  "仅显示有成功写入证据的文档；仅引用及无法确认的脚本产物不展示。": "Only documents with successful write evidence are shown. Links and unverified script outputs are excluded."
+  "仅显示有成功写入证据的文档；仅引用及无法确认的脚本产物不展示。": "Only documents with successful write evidence are shown. Links and unverified script outputs are excluded.",
+  "脚本写入分析": "Script write analysis",
+  "根据文件变更和历史脚本写入分析识别产出；仅阅读或引用不计入，无法解析的产物可能遗漏。": "Outputs identified from file changes and recorded script writes. Reading and links alone do not count; unsupported outputs may be missed."
 }
