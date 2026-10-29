@@ -14,7 +14,7 @@ export function collectFiles(entries,cwd){
   const lines=i.command.split('\n');for(let n=0;n<lines.length;n++){const line=lines[n];const delimiter=line.match(/<<-?\s*['"]?([A-Za-z_][A-Za-z0-9_]*)['"]?\s*$/);if(!delimiter)continue;const write=line.match(/^\s*cat\s+(>>?)\s*(?:'([^']+)'|"([^"$`]+)"|([^\s'"$`;&|<>]+))\s*<<-?\s*['"]?[A-Za-z_][A-Za-z0-9_]*['"]?\s*$/);if(write)record(write[2]||write[3]||write[4],'write',time,i.cwd||cwd);while(++n<lines.length&&lines[n].replace(/^\t+/,'')!==delimiter[1]){} }
  }
  }
- return [...files.values()].sort((a,b)=>(a.firstAt??Infinity)-(b.firstAt??Infinity)||a.path.localeCompare(b.path));
+ return [...files.values()].map(f=>({...f,role:f.kind==='linked'&&(/(?:^|[\\/])skills[\\/]/i.test(f.path)||/^(?:SKILL|AGENTS|CLAUDE)\.md$/i.test(f.name))?'reference':'output'})).sort((a,b)=>(a.firstAt??Infinity)-(b.firstAt??Infinity)||a.path.localeCompare(b.path));
 }
 export async function sessionFiles(id){
  if(typeof id!=='string'||! /^[0-9a-f-]{36}$/i.test(id))throw Error('会话 ID 无效');const c=connect();const meta=await c.call('thread/read',{threadId:id,includeTurns:false});const entries=[];let cursor;const seen=new Set();do{const r=await c.call('thread/items/list',{threadId:id,limit:100,sortDirection:'asc',cursor});entries.push(...r.data);cursor=r.nextCursor;if(cursor&&seen.has(cursor))throw Error('文件记录分页重复，请重试');seen.add(cursor);}while(cursor);

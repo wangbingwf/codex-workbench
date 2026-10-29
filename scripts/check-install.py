@@ -11,12 +11,13 @@ with tempfile.TemporaryDirectory(prefix='workbench-install-') as tmp:
   if r.returncode:raise RuntimeError('Command failed: '+' '.join(args)+'\n'+r.stderr[-2000:])
   return json.loads(r.stdout)
  run('plugin','marketplace','add','.', '--json')
+ initial=json.loads((checkout/'plugins/codex-workbench/plugin.json').read_text())['version']
  selector='codex-workbench@codex-workbench-community'
  def version(value):
   for filename in ['plugin.json','.codex-plugin/plugin.json']:
    p=checkout/'plugins/codex-workbench'/filename;d=json.loads(p.read_text());d['version']=value;p.write_text(json.dumps(d))
- assert run('plugin','add',selector,'--json')['version']=='0.9.0'
- version('0.9.1');assert run('plugin','add',selector,'--json')['version']=='0.9.1'
- version('0.9.0');assert run('plugin','add',selector,'--json')['version']=='0.9.0'
+ assert run('plugin','add',selector,'--json')['version']==initial
+ version('0.9.99');assert run('plugin','add',selector,'--json')['version']=='0.9.99'
+ version(initial);assert run('plugin','add',selector,'--json')['version']==initial
  run('plugin','remove',selector,'--json')
  print('PASS isolated marketplace: install -> update -> rollback -> uninstall; real config untouched')
